@@ -29,7 +29,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private MapView mapView;
     private MapboxMap mapboxMap;
     private FusedLocationProviderClient fusedLocationClient;
-    private GeoJsonSource userLocationSource; // GeoJsonSource untuk lokasi pengguna
-    private SymbolLayer userLocationLayer; // SymbolLayer untuk marker pengguna
+    private GeoJsonSource userLocationSource;
+    private SymbolLayer userLocationLayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +92,11 @@ public class MainActivity extends AppCompatActivity {
         ImageButton btnGeolocation = findViewById(R.id.btnGeolocation);
 
         mapView.getMapAsync(mapboxMap -> {
-            this.mapboxMap = mapboxMap;  // Set the mapboxMap instance
+            this.mapboxMap = mapboxMap;
 
             // Enable compass
             UiSettings uiSettings = mapboxMap.getUiSettings();
-            uiSettings.setCompassEnabled(true);  // Activate compass
+            uiSettings.setCompassEnabled(true);
 
             String tmsUrl = "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}";
             String styleJson = "{\n" +
@@ -121,31 +120,33 @@ public class MainActivity extends AppCompatActivity {
                     "}";
 
             mapboxMap.setStyle(new Style.Builder().fromJson(styleJson), style -> {
-                // Add custom markers
-                style.addImage("location", BitmapFactory.decodeResource(getResources(), R.drawable.location2));
+                // Add custom markers with updated drawable and size
+                style.addImage("location2", BitmapFactory.decodeResource(getResources(), R.drawable.location2));
 
                 List<Feature> featureList = new ArrayList<>();
-                // Add 5 marker locations with updated coordinates
-                featureList.add(Feature.fromGeometry(Point.fromLngLat(107.6024407059723, -6.9145750716771595))); // Koordinat utama
-                featureList.add(Feature.fromGeometry(Point.fromLngLat(107.609235971816, -6.9164009482705)));
-                featureList.add(Feature.fromGeometry(Point.fromLngLat(107.60725001439585, -6.921387670978889)));
-                featureList.add(Feature.fromGeometry(Point.fromLngLat(107.59685576361818, -6.905436838360905)));
-                featureList.add(Feature.fromGeometry(Point.fromLngLat(107.58034545417492, -6.903306631888682)));
+                // Updated coordinates for Surakarta landmarks:
+                featureList.add(Feature.fromGeometry(Point.fromLngLat(110.8317275, -7.5755404))); // Keraton Surakarta (Main coordinate)
+                featureList.add(Feature.fromGeometry(Point.fromLngLat(110.8219885, -7.5683426))); // Pasar Gede
+                featureList.add(Feature.fromGeometry(Point.fromLngLat(110.8392483, -7.5598208))); // Stasiun Solo Balapan
+                featureList.add(Feature.fromGeometry(Point.fromLngLat(110.8157051, -7.5709318))); // Pasar Klewer
+                featureList.add(Feature.fromGeometry(Point.fromLngLat(110.8224595, -7.5561788))); // Solo Paragon Mall
 
                 GeoJsonSource geoJsonSource = new GeoJsonSource("marker-source", FeatureCollection.fromFeatures(featureList));
                 style.addSource(geoJsonSource);
 
                 SymbolLayer symbolLayer = new SymbolLayer("marker-layer", "marker-source")
                         .withProperties(
-                                PropertyFactory.iconImage("location"),
+                                PropertyFactory.iconImage("location2"),
                                 PropertyFactory.iconAllowOverlap(true),
-                                PropertyFactory.iconIgnorePlacement(true)
+                                PropertyFactory.iconIgnorePlacement(true),
+                                PropertyFactory.iconSize(0.1f) // Adjust size to 50% of original
+
                         );
                 style.addLayer(symbolLayer);
 
-                // Set initial camera position to the main coordinate
+                // Set initial camera position to Keraton Surakarta
                 mapboxMap.setCameraPosition(new CameraPosition.Builder()
-                        .target(new LatLng(-6.9145750716771595, 107.6024407059723))
+                        .target(new LatLng(-7.5755404, 110.8317275))
                         .zoom(15.0)
                         .build());
 
@@ -176,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Lifecycle methods remain unchanged
     @Override
     protected void onStart() {
         super.onStart();
