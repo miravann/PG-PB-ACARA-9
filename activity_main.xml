@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F0F0">
+
+    <!-- Header Bar -->
+    <TextView
+        android:id="@+id/headerBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/bg"
+        android:text="Maps App"
+        android:fontFamily="casual"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:textStyle="bold" />
+
+    <!-- MapView untuk menampilkan peta -->
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerBar">
+
+        <ImageButton
+            android:id="@+id/btnGeolocation"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/geolocation2"
+            android:contentDescription="Geolocation"
+            android:elevation="4dp" />
+    </com.mapbox.mapboxsdk.maps.MapView>
+
+    <!-- Tombol Geolocation -->
+
+    <!-- Tombol Zoom Controls -->
+    <LinearLayout
+        android:id="@+id/zoomControls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp">
+
+        <ImageButton
+            android:id="@+id/btnZoomIn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/zoomin2"
+            android:contentDescription="Zoom In"
+            android:elevation="4dp"
+            android:layout_marginBottom="4dp" />
+
+        <ImageButton
+            android:id="@+id/btnZoomOut"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/zoomout2"
+            android:contentDescription="Zoom Out"
+            android:elevation="4dp" />
+    </LinearLayout>
+
+</RelativeLayout>
